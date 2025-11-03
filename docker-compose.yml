@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/app:rw
+    environment:
+      - MODEL_REGISTRY_DIR=/app/model_registry
+
+  trainer:
+    build: .
+    command: ["python", "models/train_models.py", "--data-path", "data/processed/latest.csv", "--out-model-dir", "model_registry", "--out-forecast-dir", "artifacts/forecasts"]
+    volumes:
+      - ./:/app:rw
+    depends_on:
+      - api
