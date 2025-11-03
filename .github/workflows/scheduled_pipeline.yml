@@ -1,0 +1,33 @@
+name: Monthly Forecast Pipeline
+on:
+  schedule:
+    - cron: '5 0 1 * *'  # run at 00:05 UTC on the 1st of each month
+  workflow_dispatch: {}
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Fetch data
+        run: |
+          python scripts/ingest/fetch_data.py --source "$DATA_SOURCE" --out-dir data/raw
+        env:
+          DATA_SOURCE: ${{ secrets.DATA_SOURCE }}
+      - name: Preprocess (placeholder)
+        run: |
+          echo "Add your preprocess step here or call your existing preprocess script"
+      - name: Train models
+        run: |
+          python models/train_models.py --data-path data/processed/latest.csv --out-model-dir model_registry --out-forecast-dir artifacts/forecasts --horizon 3
+      - name: Upload forecasts (placeholder)
+        run: |
+          echo "Upload artifacts/forecasts to your storage or notify stakeholders"
