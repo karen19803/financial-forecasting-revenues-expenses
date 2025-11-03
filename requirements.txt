@@ -1,0 +1,24 @@
+# Core numerical/data packages
+pandas==2.2.3
+numpy==1.26.4
+
+# Forecasting
+prophet==1.1.5
+
+# Serialization
+joblib==1.4.2
+
+# API layer
+fastapi==0.115.0
+uvicorn==0.30.1
+
+# Logging and utils
+python-dateutil==2.9.0.post0
+pytz==2024.2
+
+# For Docker and GitHub Actions environments
+requests==2.32.3
+
+# Optional dependencies for visualization or notebooks
+matplotlib==3.9.2
+plotly==5.24.1
